@@ -8,10 +8,15 @@ OS=$(lsb_release -d | cut -f2-)
 UPTIME=$(uptime -p)
 
 # Hardware Information
+# Gets the cpu model name (only first occurence), then trims the whitespace using sed
 CPU=$(lscpu | grep -m 1 'Model name' | awk -F: '{print $2}' | sed 's/^ *//')
+
 RAM=$(free -h | awk '/^Mem:/ {print $2}')
+
+# Uses awk to gather disk vendor, product and size
 DISKS=$(lshw -class disk |
 awk -F': ' '/vendor:/ {vendor=$2} /product:/ {product=$2} /size:/ {size=$2; printf "%s %s %s", vendor, product, size}')
+
 VIDEO=$(lspci | grep -i 'VGA' | cut -d ':' -f3 | sed 's/^ *//')
 
 # Network Information
@@ -25,7 +30,11 @@ LOGGED_USERS=$(who | awk '{print $1}' | sort -u | paste -s -d ',')
 DISK_SPACE=$(df -h --output=target,avail | awk 'NR>1 {print $1 " " $2}')
 PROCESS_COUNT=$(ps aux --no-heading | wc -l)
 LOAD_AVG=$(uptime | awk -F 'load average: ' '{print $2}')
+
+# Gathers the listening ports using ss, then takes only the 5th element, then element after colon, then sorts and pastes as a comma separated list
 LISTENING_PORTS=$(ss -tuln | awk 'NR>1 {print $5}' | awk -F: '{if (NF>1) print $NF}' | sort -n | uniq | paste -sd ',')
+
+# Saves the status as enabled if UFW is active, disabled otherwise
 UFW_STATUS=$(ufw status | grep -q "Status: active" && echo "enabled" || echo "disabled")
 
 # Prints System Report
