@@ -44,6 +44,7 @@ fi
 info_message "Updating /etc/hosts"
 if sed -i '/server1$/d' /etc/hosts; then
     echo "192.168.16.21 server1" >> /etc/hosts
+    info_message "Success!"
 else
     error_message "Failed to update /etc/hosts."
     exit 1
