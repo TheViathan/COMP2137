@@ -212,7 +212,7 @@ fi
 
 # ensure hostvm has names for bridge, lan, and mgmt hostnames in hostvm's /etc/hosts
 hostvmlanip="$lannetnum.1"
-hostvmmgmtip="$mgmtnetnum.2"
+hostvmmgmtip="$mgmtnetnum.1"
 echoverbose "Adding hostvm to /etc/hosts file if necessary"
 sudo sed -i -e '/ hostvm$/d' -e '$a'"$hostvmlanip hostvm"\
             -e '/ hostvm-mgmt$/d' -e '$a'"$hostvmmgmtip hostvm-mgmt puppet"\
@@ -220,7 +220,7 @@ sudo sed -i -e '/ hostvm$/d' -e '$a'"$hostvmlanip hostvm"\
 
 # ensure hostvm has names for openwrt bridge, lan, and mgmt hostnames in hostvm's /etc/hosts
 openwrtlanip="$lannetnum.2"
-openwrtmgmtip="$mgmtnetnum.3"
+openwrtmgmtip="$mgmtnetnum.2"
 echoverbose "Adding openwrt to /etc/hosts file if necessary"
 sudo sed -i -e '/ openwrt$/d' -e '$a'"$openwrtlanip openwrt"\
             -e '/ openwrt-mgmt$/d' -e '$a'"$openwrtmgmtip openwrt-mgmt"\
